@@ -28,6 +28,18 @@ namespace p2p
             content += newContent;
         }
     }
+
+    class IPTable {
+        private string[] ipAddresses = new string[0];
+        private int ipCount = 0;
+        public string[] getIpAddresses() {
+            return ipAddresses;
+        }
+        public void addIP(string ip) {
+            ipAddresses[ipCount] = ip;
+            ipCount++;
+        }
+    }
     class Program
     {
         static void Main(string[] args)
@@ -40,6 +52,8 @@ namespace p2p
             }else startNew();
         }
         static void join() {
+            Console.WriteLine("IP address: ");
+            string ip = Console.ReadLine();
             new Thread(() => {
                 UDPContenetListener cl = new UDPContenetListener();
                 cl.receiveContent();
@@ -47,8 +61,9 @@ namespace p2p
             Thread.Sleep(100);
             new Thread(() => {
                 UDPClient client = new UDPClient();
-                client.sendTo("127.0.0.1", Common.REQ_LISTENER_PORT);
+                client.sendTo(ip, Common.REQ_LISTENER_PORT);
                 UDPReqListener listener = new UDPReqListener(Common.REQ_LISTENER_PORT);
+                listener.start();
             }).Start();
         }
         static void startNew()  {
