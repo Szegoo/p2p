@@ -5,7 +5,7 @@ using System.Text;
 namespace p2p {
     class UDPClient {
 
-        public void sendContentTo(string ip, int port, string content = "GET") {
+        public void sendTo(string ip, int port, string content = "GET") {
             Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
             IPAddress broadcast = IPAddress.Parse(ip);
@@ -14,7 +14,7 @@ namespace p2p {
             IPEndPoint endpoint = new IPEndPoint(broadcast, port);
             s.SendTo(request, endpoint);
 
-            System.Console.WriteLine("Request sent to " + ip + ":" +port.ToString());
+            System.Console.WriteLine("Sent to " + ip + ":" +port.ToString());
         }
     }
 }

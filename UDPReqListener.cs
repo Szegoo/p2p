@@ -31,7 +31,7 @@ namespace p2p {
                 case "GET":
                     UDPClient c = new UDPClient();
                     string ip = groupEp.Address.ToString();
-                    c.sendContentTo(ip, Common.CONTENT_LISTENER_PORT, content.getContent());
+                    c.sendTo(ip, Common.CONTENT_LISTENER_PORT, content.getContent());
                     break;
             }
         }

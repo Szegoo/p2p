@@ -7,7 +7,7 @@ namespace p2p
 
     class Common {
         public static int REQ_LISTENER_PORT = 2005;
-        public static int CONTENT_LISTENER_PORT = 5000;
+        public static int CONTENT_LISTENER_PORT = 4001;
 
         public static string requestToString(byte[] bytes) {
             return Encoding.ASCII.GetString(bytes);
@@ -47,12 +47,13 @@ namespace p2p
             Thread.Sleep(100);
             new Thread(() => {
                 UDPClient client = new UDPClient();
-                client.sendContentTo("127.0.0.1", Common.REQ_LISTENER_PORT);
+                client.sendTo("127.0.0.1", Common.REQ_LISTENER_PORT);
+                UDPReqListener listener = new UDPReqListener(Common.REQ_LISTENER_PORT);
             }).Start();
         }
         static void startNew()  {
             UDPReqListener listener = new UDPReqListener(Common.REQ_LISTENER_PORT);
-            listener.start();    
+            listener.start();
         }
     } 
 }
