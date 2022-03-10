@@ -5,8 +5,10 @@ using System.Text;
 namespace p2p {
     class UDPReqListener : UDPListener {
         private Content content;
+        private IPTable ipTable;
         public UDPReqListener(int port) : base(port) {
             content = new Content("test");
+            ipTable = new IPTable();
         }
 
         public void start() {
@@ -31,9 +33,14 @@ namespace p2p {
                 case "GET":
                     UDPClient c = new UDPClient();
                     string ip = groupEp.Address.ToString();
+                    addIP(ip);
                     c.sendTo(ip, Common.CONTENT_LISTENER_PORT, content.getContent());
                     break;
             }
+        }
+
+        public void addIP(string ip) {
+            ipTable.addIP(ip);
         }
     }
 }
