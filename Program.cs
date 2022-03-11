@@ -50,13 +50,16 @@ namespace p2p
         static void startNewPeer(string ip) {
             UDPReqListener listener = new UDPReqListener(Common.REQ_LISTENER_PORT);
             listener.addIP(ip);
-            listener.start();
+            runNewPeer(listener);
         }
 
         static void startNewPeer()  {
             UDPReqListener listener = new UDPReqListener(Common.REQ_LISTENER_PORT);
+            runNewPeer(listener);
+        }
+        static void runNewPeer(UDPReqListener listener) {
             new Thread(() => listener.start()).Start();
-            
+            new Thread(() => listener.waitForContent()).Start();
         }
     } 
 }

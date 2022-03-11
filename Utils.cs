@@ -36,5 +36,9 @@ namespace p2p {
             ipAddresses[ipCount] = ip;
             ipCount++;
         }
+
+        public int getIPCount() {
+            return ipCount;
+        }
     }
 }

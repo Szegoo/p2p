@@ -63,7 +63,8 @@ namespace p2p {
         private void notifyTheNetwork() {
             UDPClient client = new UDPClient();
             string[] addresses = ipTable.getIpAddresses();
-            for(int i = 0 ; i < addresses.Length; i++) {
+            Console.WriteLine(addresses.Length);
+            for(int i = 0 ; i < ipTable.getIPCount(); i++) {
                 client.sendTo(addresses[i], Common.REQ_LISTENER_PORT, content.getContent());
             }
         }
