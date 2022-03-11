@@ -1,3 +1,4 @@
+using System;
 using System.Net.Sockets;
 
 namespace p2p {
@@ -49,7 +50,12 @@ namespace p2p {
             ipTable.addIP(ip);
         }
 
-        public void addContent(string content) {
+        public void waitForContent() {
+            System.Console.WriteLine("New content: ");
+            string newContent = Console.ReadLine();
+            addContent(newContent);
+        }
+        private void addContent(string content) {
             this.content.appendToContnet(content);
             this.notifyTheNetwork();
         }
