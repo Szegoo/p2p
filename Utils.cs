@@ -19,9 +19,9 @@ namespace p2p {
             return content;
         }
         public void setContent(string newContent, int version) {
-            System.Console.WriteLine("Content updated");
             content = newContent;
             this.version = version;
+            System.Console.WriteLine("Content updated: " + content);
         }
         public void appendToContnet(string newContent) {
             content += newContent;

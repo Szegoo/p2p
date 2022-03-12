@@ -13,12 +13,12 @@ namespace p2p {
  
         private protected int getVersionFromPacket(string packet) {
             int separatorIndx = getSeparatorIndx(packet);
-            return Convert.ToInt32(packet.Substring(0, separatorIndx));
+            return Convert.ToInt32(packet.Substring(0, separatorIndx-1));
         }
 
         private protected string getContentFromPacket(string packet) {
             int separatorIndx = getSeparatorIndx(packet);
-            return packet.Substring(separatorIndx);
+            return packet.Substring(separatorIndx+1);
         }
 
         private protected int getSeparatorIndx(string req) {

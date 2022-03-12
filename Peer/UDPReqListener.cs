@@ -44,6 +44,7 @@ namespace p2p {
         private void acceptNewPeer(){
             UDPClient c = new UDPClient();
             string ip = groupEp.Address.ToString();
+            System.Console.WriteLine("contentPacket: " + getContentPacket());
             addIP(ip);
             c.sendTo(ip, Common.CONTENT_LISTENER_PORT, getContentPacket());
         }
@@ -69,10 +70,10 @@ namespace p2p {
         private void notifyTheNetwork() {
             UDPClient client = new UDPClient();
             string[] addresses = ipTable.getIpAddresses();
-            Console.WriteLine(addresses.Length);
             for(int i = 0 ; i < ipTable.getIPCount(); i++) {
-                client.sendTo(addresses[i], Common.REQ_LISTENER_PORT, content.getContent());
+                client.sendTo(addresses[i], Common.REQ_LISTENER_PORT, getContentPacket());
             }
+            waitForContent();
         }
     }
 }
