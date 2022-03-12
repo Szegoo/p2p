@@ -22,19 +22,21 @@ namespace p2p {
             System.Console.WriteLine("Waiting for requests...");
             while(true) {
                 byte[] bytes = listener.Receive(ref groupEp);
-                System.Console.WriteLine($"Received: {Common.requestToString(bytes)}");
+                System.Console.WriteLine($"Received: {Common.packetToString(bytes)}");
                 classifyRequest(bytes);
             }
         }
 
         private void classifyRequest(byte[] bytes) {
-            string req = Common.requestToString(bytes);
+            string req = Common.packetToString(bytes);
             switch(req) {
                 case "GET":
                     acceptNewPeer();
                     break;
                 default:
-                    content.setContent(req);
+                    int version = getVersionFromPacket(req);
+                    string reqC = getContentFromPacket(req);
+                    content.setContent(reqC, version);
                     break;
             }
         }
@@ -43,7 +45,11 @@ namespace p2p {
             UDPClient c = new UDPClient();
             string ip = groupEp.Address.ToString();
             addIP(ip);
-            c.sendTo(ip, Common.CONTENT_LISTENER_PORT, content.getContent());
+            c.sendTo(ip, Common.CONTENT_LISTENER_PORT, getContentPacket());
+        }
+
+        private string getContentPacket() {
+            return content.getVersion().ToString() + ":" + content.getContent();
         }
 
         public void addIP(string ip) {

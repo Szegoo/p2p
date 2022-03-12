@@ -3,7 +3,7 @@ using System.Net.Sockets;
 
 namespace p2p {
     class UDPContenetListener : UDPListener {
-        Content content;
+        private Content content;
         public UDPContenetListener() : base(Common.CONTENT_LISTENER_PORT) {
             content = new Content("");
         }
@@ -17,10 +17,29 @@ namespace p2p {
         }
         private void receive() {
             while(true) {
-                byte[] bytes = listener.Receive(ref groupEp);
-                content.setContent(Common.requestToString(bytes));
-                System.Console.WriteLine("Content: " + content.getContent());
+                try {
+                    updateContent();
+                }catch(ContentVersionOutdated e) {}
                 break;
+            }
+        }
+
+        private byte[] receiveBytes() { 
+            return listener.Receive(ref groupEp);
+        }
+
+        private void updateContent() {
+            byte[] bytes = receiveBytes();
+            int version = getVersionFromPacket(Common.packetToString(bytes));
+            checkVersion(version);
+            string newContent = getContentFromPacket(Common.packetToString(bytes));
+            content.setContent(newContent, version);
+            System.Console.WriteLine("Content: " + content.getContent());
+        }
+
+        private void checkVersion(int version) {
+            if(content.getVersion() < version) {
+                throw new ContentVersionOutdated();
             }
         }
     }
