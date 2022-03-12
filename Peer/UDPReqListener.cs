@@ -5,8 +5,8 @@ namespace p2p {
     class UDPReqListener : UDPListener {
         private Content content;
         private IPTable ipTable;
-        public UDPReqListener(int port) : base(port) {
-            content = new Content("test");
+        public UDPReqListener(Content content, int port) : base(port) {
+            this.content = content;
             ipTable = new IPTable();
         }
 

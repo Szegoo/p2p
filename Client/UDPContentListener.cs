@@ -4,8 +4,8 @@ using System.Net.Sockets;
 namespace p2p {
     class UDPContenetListener : UDPListener {
         private Content content;
-        public UDPContenetListener() : base(Common.CONTENT_LISTENER_PORT) {
-            content = new Content("");
+        public UDPContenetListener(Content content): base(Common.CONTENT_LISTENER_PORT) {
+            this.content = content;
         }
         public string receiveContent() {
             try {
